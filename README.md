@@ -14,6 +14,95 @@ The assistant must answer only from the uploaded archive, cite its sources, show
 
 This is not intended to be a public Star Wars fan wiki. It is a serious internal intelligence product set in a Star Wars-inspired universe.
 
+## Running The Project
+
+This project is split into two apps:
+
+- `backend/` - FastAPI backend managed with `uv`
+- `frontend/` - React + TypeScript frontend managed with `npm`
+
+Run the backend and frontend in separate terminal windows.
+
+### Prerequisites
+
+Install these before running the project:
+
+- Python
+- `uv`
+- Node.js
+- npm
+
+Check the tools are available:
+
+```bash
+python3 --version
+uv --version
+node --version
+npm --version
+```
+
+If `uv` is missing on macOS, install it with Homebrew:
+
+```bash
+brew install uv
+```
+
+### Run The Backend
+
+From the project root:
+
+```bash
+cd backend
+uv sync
+uv run uvicorn app.main:app --reload
+```
+
+The backend runs at:
+
+```text
+http://127.0.0.1:8000
+```
+
+Health check:
+
+```text
+http://127.0.0.1:8000/health
+```
+
+FastAPI docs:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+If the root URL shows `{"detail":"Not Found"}`, that is normal unless a `/` route has been added. Use `/health` or `/docs`.
+
+### Run The Frontend
+
+Open a second terminal and run:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend usually runs at:
+
+```text
+http://localhost:5173
+```
+
+### Development Workflow
+
+Typical local development flow:
+
+1. Start the backend with `uv run uvicorn app.main:app --reload`.
+2. Start the frontend with `npm run dev`.
+3. Use `http://127.0.0.1:8000/docs` to test backend endpoints.
+4. Use `http://localhost:5173` to view the frontend.
+5. Commit each milestone once it runs locally.
+
 ## Project Summary
 
 The Bounty Hunter Guild manages dangerous contract work across the galaxy. Hunters and Guild analysts rely on scattered records before accepting, assigning, or investigating a bounty.
