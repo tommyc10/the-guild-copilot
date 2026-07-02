@@ -3,15 +3,17 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException
 from app.models.chat import ChatRequest, ChatResponse, Source
 from app.services.ai_service import generate_answer
-from app.services.document_loader import load_document
+from app.services.document_loader import load_all_documents
 
 
 router = APIRouter()
-DOCUMENT_PATH = Path(__file__).resolve().parents[2] / "data" / "GLD-TD-3287-114_Renn_Dakar.md"
+DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+
 
 @router.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
-    document_text = load_document(str(DOCUMENT_PATH))
+    documents = load_all_documents(str(DATA_DIR))
+    document_text = "\n\n---\n\n".join(documents)
 
     try:
         answer = generate_answer(request.message, document_text)
