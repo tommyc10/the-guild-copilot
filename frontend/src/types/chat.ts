@@ -17,3 +17,11 @@ export type Message = {
   content: string
   sources?: Source[]
 }
+
+export type ChatHistory = {
+  id: number
+  title: string
+  messages: Message[]
+  created_at: string
+  updated_at: string
+}

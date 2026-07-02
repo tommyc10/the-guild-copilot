@@ -9,12 +9,27 @@ import { Textarea } from "@/components/ui/textarea"
 import { useChat } from "@/hooks/use-chat"
 
 function App() {
-  const { error, handleSubmit, input, isLoading, messages, setInput } =
-    useChat()
+  const {
+    activeSessionId,
+    error,
+    handleSubmit,
+    input,
+    isLoading,
+    messages,
+    selectSession,
+    sessions,
+    setInput,
+    startNewChat,
+  } = useChat()
 
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar
+        activeSessionId={activeSessionId}
+        onNewChat={startNewChat}
+        onSelectSession={selectSession}
+        sessions={sessions}
+      />
 
       <SidebarInset>
         <header className="flex h-14 items-center gap-3 border-b px-4">
@@ -86,8 +101,8 @@ function App() {
                   ))}
 
                   {isLoading ? (
-                    <p className="text-sm text-muted-foreground">
-                      Searching Guild records...
+                    <p className="shimmer text-sm font-medium tracking-wide text-muted-foreground">
+                      Searching for answers...
                     </p>
                   ) : null}
                 </div>

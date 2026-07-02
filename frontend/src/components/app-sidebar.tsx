@@ -13,8 +13,21 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import avatarImage from "@/assets/mando-helmet.jpg"
 import { MessageSquare, Plus } from "lucide-react"
+import type { ChatHistory } from "@/types/chat"
 
-export function AppSidebar() {
+type AppSidebarProps = {
+  activeSessionId: number | null
+  onNewChat: () => void
+  onSelectSession: (sessionId: number) => void
+  sessions: ChatHistory[]
+}
+
+export function AppSidebar({
+  activeSessionId,
+  onNewChat,
+  onSelectSession,
+  sessions,
+}: AppSidebarProps) {
   return (
     <Sidebar>
       <SidebarHeader>
@@ -35,7 +48,7 @@ export function AppSidebar() {
 
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton>
+            <SidebarMenuButton onClick={onNewChat}>
               <Plus />
               <span>New chat</span>
             </SidebarMenuButton>
@@ -45,41 +58,26 @@ export function AppSidebar() {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Today</SidebarGroupLabel>
+          <SidebarGroupLabel>Chats</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton isActive>
-                  <MessageSquare />
-                  <span>Renn Dakar location</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Previous</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <MessageSquare />
-                  <span>Crimson Vine contract risk</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <MessageSquare />
-                  <span>Drelth Outpost records</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <MessageSquare />
-                  <span>Unverified shuttle sighting</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {sessions.length > 0 ? (
+                sessions.map((session) => (
+                  <SidebarMenuItem key={session.id}>
+                    <SidebarMenuButton
+                      isActive={session.id === activeSessionId}
+                      onClick={() => onSelectSession(session.id)}
+                    >
+                      <MessageSquare />
+                      <span>{session.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))
+              ) : (
+                <p className="px-2 py-1 text-xs text-muted-foreground">
+                  No saved chats yet
+                </p>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
