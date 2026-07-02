@@ -10,6 +10,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import avatarImage from "@/assets/mando-helmet.jpg"
 import { MessageSquare, Plus } from "lucide-react"
 
 export function AppSidebar() {
@@ -85,9 +87,10 @@ export function AppSidebar() {
 
       <SidebarFooter>
         <div className="flex items-center gap-3 rounded-lg px-2 py-2">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg border bg-background text-xs font-medium">
-            TC
-          </div>
+          <Avatar>
+            <AvatarImage src={avatarImage} alt="Signed-in hunter avatar" />
+            <AvatarFallback>TC</AvatarFallback>
+          </Avatar>
           <div className="min-w-0">
             <p className="truncate text-sm font-medium leading-none">
               tommy@guild.local

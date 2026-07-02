@@ -1,4 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
 import {
   SidebarInset,
   SidebarProvider,
@@ -13,9 +15,6 @@ function App() {
       <SidebarInset>
         <header className="flex h-14 items-center gap-3 border-b px-4">
           <SidebarTrigger />
-          <div className="min-w-0">
-            <p className="text-sm font-medium leading-none">Guild archive workspace</p>
-          </div>
         </header>
 
         <main className="flex min-h-0 flex-1 flex-col">
@@ -33,13 +32,16 @@ function App() {
             </div>
 
             <div className="rounded-xl border bg-card p-3 shadow-sm">
-              <p className="px-2 pb-3 text-sm text-muted-foreground">
-                Ask about Renn Dakar&apos;s last confirmed location...
-              </p>
-              <div className="flex justify-end">
-                <button className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
-                  Send
-                </button>
+              <Textarea
+                className="min-h-24 resize-none border-0 p-2 shadow-none focus-visible:ring-0"
+                placeholder="Ask about Renn Dakar's last confirmed location..."
+              />
+              <div className="mt-3 flex items-center justify-between gap-3">
+                <p className="text-xs text-muted-foreground">
+                  Answers are grounded in Guild records. Verify citations before
+                  relying on them.
+                </p>
+                <Button size="sm">Send</Button>
               </div>
             </div>
           </section>
