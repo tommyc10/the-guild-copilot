@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar"
+import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
 import {
   SidebarInset,
@@ -32,8 +33,9 @@ function App() {
       />
 
       <SidebarInset>
-        <header className="flex h-14 items-center gap-3 border-b px-4">
+        <header className="flex h-14 items-center justify-between gap-3 border-b px-4">
           <SidebarTrigger />
+          <ModeToggle />
         </header>
 
         <main className="flex min-h-0 flex-1 flex-col">
