@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar"
+import { MarkdownMessage } from "@/components/markdown-message"
 import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
 import {
@@ -71,7 +72,11 @@ function App() {
                             : "w-full max-w-2xl text-sm leading-6"
                         }
                       >
-                        <p>{message.content}</p>
+                        {message.role === "assistant" ? (
+                          <MarkdownMessage content={message.content} />
+                        ) : (
+                          <p>{message.content}</p>
+                        )}
 
                         {message.sources?.length ? (
                           <div className="mt-4 space-y-3">
