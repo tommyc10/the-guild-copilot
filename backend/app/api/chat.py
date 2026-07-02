@@ -1,21 +1,31 @@
-from fastapi import APIRouter
+from pathlib import Path
+
+from fastapi import APIRouter, HTTPException
 from app.models.chat import ChatRequest, ChatResponse, Source
+from app.services.ai_service import generate_answer
 from app.services.document_loader import load_document
 
 
 router = APIRouter()
+DOCUMENT_PATH = Path(__file__).resolve().parents[2] / "data" / "GLD-TD-3287-114_Renn_Dakar.md"
 
 @router.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
-    document_text = load_document("/Users/tommyclark/Developer/projects/the-guild-copilot/backend/data/GLD-TD-3287-114_Renn_Dakar.md")
+    document_text = load_document(str(DOCUMENT_PATH))
+
+    try:
+        answer = generate_answer(request.message, document_text)
+    except ValueError as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
     return ChatResponse(
-        answer="Renn Dakar's last confirmed sighting was at Drelth Outpost on Standard Date 3287.103, where a biometric scan matched him with 98 percent confidence. His registered ship, the Ashen Comet, departed Drelth Outpost one day later on 3287.104, but the dossier does not prove Dakar was aboard. Later claims about an unregistered shuttle, a second traveler, or movement toward the Threen Concordat border region are unverified and should not be treated as confirmed.",
+        answer=answer,
         sources=[
             Source(
                 document_title="Target Dossier: Renn Dakar, The Quiet Knife",
                 document_type="Target Dossier",
                 reliability="Mixed Reliability",
-                section="Biometric Scan Record",
+                section="Full document",
                 passage=document_text
             )
         ]
