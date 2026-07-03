@@ -12,19 +12,26 @@ import {
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import avatarImage from "@/assets/mando-helmet.jpg"
-import { MessageSquare, Plus } from "lucide-react"
+import { Crosshair, MessageSquare, Plus } from "lucide-react"
 import type { ChatHistory } from "@/types/chat"
+import { BorderBeam } from "border-beam"
+
+export type AppView = "chat" | "bounties"
 
 type AppSidebarProps = {
   activeSessionId: number | null
+  activeView: AppView
   onNewChat: () => void
+  onSelectBounties: () => void
   onSelectSession: (sessionId: number) => void
   sessions: ChatHistory[]
 }
 
 export function AppSidebar({
   activeSessionId,
+  activeView,
   onNewChat,
+  onSelectBounties,
   onSelectSession,
   sessions,
 }: AppSidebarProps) {
@@ -58,6 +65,25 @@ export function AppSidebar({
 
       <SidebarContent>
         <SidebarGroup>
+          <SidebarGroupLabel>Guild board</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <BorderBeam size="md" colorVariant="sunset" strength={0.7}>
+                <SidebarMenuButton
+                  isActive={activeView === "bounties"}
+                  onClick={onSelectBounties}
+                >
+                  <Crosshair />
+                  <span>Active Bounties</span>
+                </SidebarMenuButton>
+                  </BorderBeam>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
           <SidebarGroupLabel>Chats</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -65,7 +91,9 @@ export function AppSidebar({
                 sessions.map((session) => (
                   <SidebarMenuItem key={session.id}>
                     <SidebarMenuButton
-                      isActive={session.id === activeSessionId}
+                      isActive={
+                        activeView === "chat" && session.id === activeSessionId
+                      }
                       onClick={() => onSelectSession(session.id)}
                     >
                       <MessageSquare />

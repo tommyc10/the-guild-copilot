@@ -1,4 +1,8 @@
+import { useState } from "react"
+
 import { AppSidebar } from "@/components/app-sidebar"
+import type { AppView } from "@/components/app-sidebar"
+import { ActiveBountiesPage } from "@/components/bounties/active-bounties-page"
 import { ChatComposer } from "@/components/chat/chat-composer"
 import { ChatMessages } from "@/components/chat/chat-messages"
 import { ModeToggle } from "@/components/mode-toggle"
@@ -10,6 +14,7 @@ import {
 import { useChat } from "@/hooks/use-chat"
 
 function App() {
+  const [activeView, setActiveView] = useState<AppView>("chat")
   const {
     activeSessionId,
     error,
@@ -23,12 +28,29 @@ function App() {
     startNewChat,
   } = useChat()
 
+  function handleNewChat() {
+    setActiveView("chat")
+    startNewChat()
+  }
+
+  function handleSelectSession(sessionId: number) {
+    setActiveView("chat")
+    selectSession(sessionId)
+  }
+
+  function handleAskCopilot(question: string) {
+    setActiveView("chat")
+    setInput(question)
+  }
+
   return (
     <SidebarProvider className="h-svh overflow-hidden">
       <AppSidebar
         activeSessionId={activeSessionId}
-        onNewChat={startNewChat}
-        onSelectSession={selectSession}
+        activeView={activeView}
+        onNewChat={handleNewChat}
+        onSelectBounties={() => setActiveView("bounties")}
+        onSelectSession={handleSelectSession}
         sessions={sessions}
       />
 
@@ -39,26 +61,30 @@ function App() {
         </header>
 
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-          <section className="flex min-h-0 w-full flex-1 flex-col overflow-hidden">
-            <ChatMessages isLoading={isLoading} messages={messages} />
+          {activeView === "bounties" ? (
+            <ActiveBountiesPage onAskCopilot={handleAskCopilot} />
+          ) : (
+            <section className="flex min-h-0 w-full flex-1 flex-col overflow-hidden">
+              <ChatMessages isLoading={isLoading} messages={messages} />
 
-            {error ? (
-              <div className="mx-auto w-full max-w-3xl px-6">
-                <p className="mb-3 rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                  {error}
-                </p>
+              {error ? (
+                <div className="mx-auto w-full max-w-3xl px-6">
+                  <p className="mb-3 rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                    {error}
+                  </p>
+                </div>
+              ) : null}
+
+              <div className="mx-auto w-full max-w-3xl px-6 pb-8">
+                <ChatComposer
+                  input={input}
+                  isLoading={isLoading}
+                  onInputChange={setInput}
+                  onSubmit={handleSubmit}
+                />
               </div>
-            ) : null}
-
-            <div className="mx-auto w-full max-w-3xl px-6 pb-8">
-              <ChatComposer
-                input={input}
-                isLoading={isLoading}
-                onInputChange={setInput}
-                onSubmit={handleSubmit}
-              />
-            </div>
-          </section>
+            </section>
+          )}
         </div>
       </SidebarInset>
     </SidebarProvider>

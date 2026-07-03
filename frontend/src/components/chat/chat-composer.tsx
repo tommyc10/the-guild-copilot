@@ -18,12 +18,7 @@ export function ChatComposer({
   onSubmit,
 }: ChatComposerProps) {
   return (
-    <BorderBeam
-      className="shrink-0"
-      colorVariant="colorful"
-      size="md"
-      strength={0.7}
-    >
+    <BorderBeam size="pulse-inner" colorVariant="mono" strength={0.7}>
       <form
         className="rounded-xl border bg-card p-3 shadow-sm"
         onSubmit={onSubmit}
