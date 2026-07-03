@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar"
+import { EvidenceCard } from "@/components/chat/evidence-card"
 import { MarkdownMessage } from "@/components/markdown-message"
 import { ModeToggle } from "@/components/mode-toggle"
 import { Button } from "@/components/ui/button"
@@ -79,29 +80,7 @@ function App() {
                         )}
 
                         {message.sources?.length ? (
-                          <div className="mt-4 space-y-3">
-                            {message.sources.map((source) => (
-                              <div
-                                className="rounded-xl border bg-card p-4 text-card-foreground shadow-sm"
-                                key={`${source.document_title}-${source.section}`}
-                              >
-                                <div className="flex flex-wrap items-center gap-2">
-                                  <p className="font-medium">
-                                    {source.document_title}
-                                  </p>
-                                  <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
-                                    {source.reliability}
-                                  </span>
-                                </div>
-                                <p className="mt-1 text-xs text-muted-foreground">
-                                  {source.document_type} · {source.section}
-                                </p>
-                                <p className="mt-3 line-clamp-4 text-xs leading-5 text-muted-foreground">
-                                  {source.passage}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
+                          <EvidenceCard sources={message.sources} />
                         ) : null}
                       </div>
                     </article>
