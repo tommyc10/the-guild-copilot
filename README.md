@@ -400,16 +400,19 @@ The first demo corpus can be fictional documents created specifically for this p
 Suggested document types:
 
 - Target dossiers
-- Active bounty contracts
-- Closed bounty contracts
+- Client contracts
 - Failed capture reports
 - Hunter after-action reports
 - Planetary risk assessments
 - Client reliability profiles
 - Syndicate advisories
+- Cantina informant reports
 - Docking bay sighting logs
-- Ship registry mentions
-- Guild arbitration decisions
+- Ship registry logs
+- Guild arbitration rulings
+- Bounty claim disputes
+- Sector travel alerts
+- Known associate profiles
 - Force-sensitive anomaly reports
 
 ## Example Document Names
