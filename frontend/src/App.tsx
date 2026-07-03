@@ -39,21 +39,25 @@ function App() {
         </header>
 
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-          <section className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col px-6 py-8">
+          <section className="flex min-h-0 w-full flex-1 flex-col overflow-hidden">
             <ChatMessages isLoading={isLoading} messages={messages} />
 
             {error ? (
-              <p className="mb-3 rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                {error}
-              </p>
+              <div className="mx-auto w-full max-w-3xl px-6">
+                <p className="mb-3 rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                  {error}
+                </p>
+              </div>
             ) : null}
 
-            <ChatComposer
-              input={input}
-              isLoading={isLoading}
-              onInputChange={setInput}
-              onSubmit={handleSubmit}
-            />
+            <div className="mx-auto w-full max-w-3xl px-6 pb-8">
+              <ChatComposer
+                input={input}
+                isLoading={isLoading}
+                onInputChange={setInput}
+                onSubmit={handleSubmit}
+              />
+            </div>
           </section>
         </div>
       </SidebarInset>

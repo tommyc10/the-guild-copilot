@@ -8,8 +8,6 @@ import {
   useMessageScrollerVisibility,
 } from "@shadcn/react/message-scroller"
 
-
-
 function ChatNavigationTrail({ messages }: { messages: Message[] }) {
   const { scrollToMessage } = useMessageScroller()
   const { currentAnchorId, visibleMessageIds } = useMessageScrollerVisibility()
@@ -34,7 +32,8 @@ function ChatNavigationTrail({ messages }: { messages: Message[] }) {
   return (
     <div
       aria-label="Conversation navigation"
-      className="absolute right-6 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-3"    >
+      className="absolute right-8 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-3"
+    >
       {anchors.map((anchor) => {
         const isActive = anchor.id === visibleAnchorId
         const isVisible = visibleMessageIds.includes(anchor.id)
@@ -67,8 +66,6 @@ function ChatNavigationTrail({ messages }: { messages: Message[] }) {
   )
 }
 
-
-
 type ChatMessagesProps = {
   isLoading: boolean
   messages: Message[]
@@ -77,7 +74,7 @@ type ChatMessagesProps = {
 export function ChatMessages({ isLoading, messages }: ChatMessagesProps) {
   if (messages.length === 0) {
     return (
-      <div className="flex flex-1 flex-col gap-6">
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-6 py-8">
         <ChatEmptyState />
       </div>
     )
@@ -86,8 +83,8 @@ export function ChatMessages({ isLoading, messages }: ChatMessagesProps) {
   return (
     <MessageScroller.Provider autoScroll defaultScrollPosition="end">
       <MessageScroller.Root className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
-        <MessageScroller.Viewport className="scroll-fade-y flex flex-1 flex-col overflow-y-auto pr-10 scrollbar-gutter-stable">
-          <MessageScroller.Content className="flex flex-col gap-6 pb-6">
+        <MessageScroller.Viewport className="scroll-fade-y flex flex-1 flex-col overflow-y-auto scrollbar-gutter-stable">
+          <MessageScroller.Content className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-6 pb-6 pt-8">
             {messages.map((message) => (
               <MessageScroller.Item
                 key={message.id}
