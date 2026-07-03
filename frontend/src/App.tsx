@@ -1,14 +1,12 @@
 import { AppSidebar } from "@/components/app-sidebar"
-import { EvidenceCard } from "@/components/chat/evidence-card"
-import { MarkdownMessage } from "@/components/markdown-message"
+import { ChatComposer } from "@/components/chat/chat-composer"
+import { ChatMessages } from "@/components/chat/chat-messages"
 import { ModeToggle } from "@/components/mode-toggle"
-import { Button } from "@/components/ui/button"
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { Textarea } from "@/components/ui/textarea"
 import { useChat } from "@/hooks/use-chat"
 
 function App() {
@@ -42,58 +40,7 @@ function App() {
 
         <main className="flex min-h-0 flex-1 flex-col">
           <section className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-6 py-8">
-            <div className="flex flex-1 flex-col gap-6">
-              {messages.length === 0 ? (
-                <div className="flex flex-1 items-center justify-center text-center">
-                  <div className="max-w-md">
-                    <h1 className="text-2xl font-semibold tracking-tight">
-                      The Guild Copilot
-                    </h1>
-                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                      Ask about targets, contracts, source reliability, and
-                      Guild intelligence records.
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-6 pb-6">
-                  {messages.map((message) => (
-                    <article
-                      className={
-                        message.role === "user"
-                          ? "flex justify-end"
-                          : "flex justify-start"
-                      }
-                      key={message.id}
-                    >
-                      <div
-                        className={
-                          message.role === "user"
-                            ? "max-w-[80%] rounded-2xl bg-primary px-4 py-3 text-sm leading-6 text-primary-foreground"
-                            : "w-full max-w-2xl text-sm leading-6"
-                        }
-                      >
-                        {message.role === "assistant" ? (
-                          <MarkdownMessage content={message.content} />
-                        ) : (
-                          <p>{message.content}</p>
-                        )}
-
-                        {message.sources?.length ? (
-                          <EvidenceCard sources={message.sources} />
-                        ) : null}
-                      </div>
-                    </article>
-                  ))}
-
-                  {isLoading ? (
-                    <p className="shimmer text-sm font-medium tracking-wide text-muted-foreground">
-                      Searching for answers...
-                    </p>
-                  ) : null}
-                </div>
-              )}
-            </div>
+            <ChatMessages isLoading={isLoading} messages={messages} />
 
             {error ? (
               <p className="mb-3 rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
@@ -101,26 +48,12 @@ function App() {
               </p>
             ) : null}
 
-            <form
-              className="rounded-xl border bg-card p-3 shadow-sm"
+            <ChatComposer
+              input={input}
+              isLoading={isLoading}
+              onInputChange={setInput}
               onSubmit={handleSubmit}
-            >
-              <Textarea
-                className="min-h-24 resize-none border-0 p-2 shadow-none focus-visible:ring-0"
-                onChange={(event) => setInput(event.target.value)}
-                placeholder="Ask about Renn Dakar's last confirmed location..."
-                value={input}
-              />
-              <div className="mt-3 flex items-center justify-between gap-3">
-                <p className="text-xs text-muted-foreground">
-                  Answers are grounded in Guild records. Verify citations before
-                  relying on them.
-                </p>
-                <Button disabled={isLoading || !input.trim()} size="sm">
-                  {isLoading ? "Searching..." : "Send"}
-                </Button>
-              </div>
-            </form>
+            />
           </section>
         </main>
       </SidebarInset>
