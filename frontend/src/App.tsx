@@ -24,7 +24,7 @@ function App() {
   } = useChat()
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="h-svh overflow-hidden">
       <AppSidebar
         activeSessionId={activeSessionId}
         onNewChat={startNewChat}
@@ -32,14 +32,14 @@ function App() {
         sessions={sessions}
       />
 
-      <SidebarInset>
-        <header className="flex h-14 items-center justify-between gap-3 border-b px-4">
+      <SidebarInset className="h-svh min-w-0 overflow-hidden">
+        <header className="flex h-14 shrink-0 items-center justify-between gap-3 border-b px-4">
           <SidebarTrigger />
           <ModeToggle />
         </header>
 
-        <main className="flex min-h-0 flex-1 flex-col">
-          <section className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-6 py-8">
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          <section className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col px-6 py-8">
             <ChatMessages isLoading={isLoading} messages={messages} />
 
             {error ? (
@@ -55,7 +55,7 @@ function App() {
               onSubmit={handleSubmit}
             />
           </section>
-        </main>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   )
