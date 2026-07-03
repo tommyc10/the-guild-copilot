@@ -2,7 +2,11 @@ from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 from app.models.chat import ChatRequest, ChatResponse, Source
-from app.services.ai_service import generate_answer
+from app.services.ai_service import (
+    ModelGenerationError,
+    ModelUnavailableError,
+    generate_answer,
+)
 from app.services.document_loader import load_all_documents
 
 
@@ -17,6 +21,10 @@ async def chat(request: ChatRequest):
 
     try:
         answer = generate_answer(request.message, document_text)
+    except ModelUnavailableError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except ModelGenerationError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
     except ValueError as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
