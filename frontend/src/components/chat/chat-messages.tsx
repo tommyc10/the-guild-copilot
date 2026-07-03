@@ -21,7 +21,7 @@ export function ChatMessages({ isLoading, messages }: ChatMessagesProps) {
   return (
     <MessageScroller.Provider autoScroll defaultScrollPosition="end">
       <MessageScroller.Root className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
-        <MessageScroller.Viewport className="scroll-fade-y flex flex-1 flex-col overflow-y-auto pr-4 [scrollbar-gutter:stable]">
+        <MessageScroller.Viewport className="scroll-fade-y flex flex-1 flex-col overflow-y-auto pr-4 scrollbar-gutter-stable">
           <MessageScroller.Content className="flex flex-col gap-6 pb-6">
             {messages.map((message) => (
               <MessageScroller.Item
