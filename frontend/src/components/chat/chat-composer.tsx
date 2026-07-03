@@ -31,7 +31,7 @@ export function ChatComposer({
         <Textarea
           className="min-h-24 resize-none border-0 p-2 shadow-none focus-visible:ring-0"
           onChange={(event) => onInputChange(event.target.value)}
-          placeholder="Ask about Renn Dakar's last confirmed location..."
+          placeholder="Search the Guild Archive..."
           value={input}
         />
 
