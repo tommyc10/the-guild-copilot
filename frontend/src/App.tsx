@@ -28,6 +28,14 @@ function App() {
     startNewChat,
   } = useChat()
 
+  const isEmptyChat = messages.length === 0
+  const chatSectionClassName = isEmptyChat
+    ? "flex min-h-0 w-full flex-1 flex-col justify-center overflow-hidden"
+    : "flex min-h-0 w-full flex-1 flex-col overflow-hidden"
+  const composerWrapperClassName = isEmptyChat
+    ? "mx-auto mt-6 w-full max-w-3xl px-6"
+    : "mx-auto w-full max-w-3xl px-6 pb-8"
+
   function handleNewChat() {
     setActiveView("chat")
     startNewChat()
@@ -54,17 +62,20 @@ function App() {
         sessions={sessions}
       />
 
-      <SidebarInset className="h-svh min-w-0 overflow-hidden">
-        <header className="flex h-14 shrink-0 items-center justify-between gap-3 border-b px-4">
+      <SidebarInset className="relative h-svh min-w-0 overflow-hidden">
+        <div className="absolute left-4 top-4 z-30">
           <SidebarTrigger />
-          <ModeToggle />
-        </header>
+        </div>
 
-        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <div className="absolute right-4 top-4 z-30">
+          <ModeToggle />
+        </div>
+
+        <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
           {activeView === "bounties" ? (
             <ActiveBountiesPage onAskCopilot={handleAskCopilot} />
           ) : (
-            <section className="flex min-h-0 w-full flex-1 flex-col overflow-hidden">
+            <section className={chatSectionClassName}>
               <ChatMessages isLoading={isLoading} messages={messages} />
 
               {error ? (
@@ -75,7 +86,7 @@ function App() {
                 </div>
               ) : null}
 
-              <div className="mx-auto w-full max-w-3xl px-6 pb-8">
+              <div className={composerWrapperClassName}>
                 <ChatComposer
                   input={input}
                   isLoading={isLoading}

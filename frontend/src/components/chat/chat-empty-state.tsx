@@ -1,6 +1,6 @@
 export function ChatEmptyState() {
   return (
-    <div className="flex flex-1 items-center justify-center text-center">
+    <div className="flex items-center justify-center text-center">
       <div className="max-w-md">
         <h1 className="text-2xl font-semibold tracking-tight">
           The Guild Copilot

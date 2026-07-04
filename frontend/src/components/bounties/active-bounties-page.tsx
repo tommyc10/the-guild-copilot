@@ -10,7 +10,7 @@ export function ActiveBountiesPage({
 }: ActiveBountiesPageProps) {
   return (
     <main className="h-full overflow-y-auto">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 py-8">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 pb-8 pt-16">
         <div className="flex flex-col gap-2">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Guild operations board

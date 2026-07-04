@@ -74,7 +74,7 @@ type ChatMessagesProps = {
 export function ChatMessages({ isLoading, messages }: ChatMessagesProps) {
   if (messages.length === 0) {
     return (
-      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-6 py-8">
+      <div className="mx-auto flex w-full max-w-3xl flex-col px-6 text-center">
         <ChatEmptyState />
       </div>
     )
